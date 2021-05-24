@@ -1,25 +1,30 @@
 import React from 'react';
 import styles from '../../Styles/Input.module.css';
-const Input = (props) => {
-  const [valor, setValor] = React.useState('');
-  function handleChange({ target }) {
-    setValor(target.value);
-  }
+const Input = ({
+  name,
+  label,
+  type,
+  onChange,
+  initialValue,
+  placeholder,
+  onBlur,
+  error,
+}) => {
   return (
     <div className={styles.wrapper}>
-      <label className={styles.label} htmlFor={props.name}>
-        {props.label}
+      <label className={label} htmlFor={name}>
+        {label}
       </label>
       <input
-        id={props.name}
-        type={props.type}
-        placeholder={props.placeholder}
+        id={name}
+        type={type}
+        placeholder={placeholder}
         className={styles.input}
-        value={valor}
-        onChange={handleChange}
-        {...props}
+        value={initialValue}
+        onChange={onChange}
+        onBlur={onBlur}
       ></input>
-      <p className={styles.error}>Error</p>
+      {error && <p className={styles.error}>{error}</p>}
     </div>
   );
 };
