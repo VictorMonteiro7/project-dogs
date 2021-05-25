@@ -7,20 +7,30 @@ import ProtectedRoute from './Components/Helper/ProtectedRoute';
 import Login from './Components/Login/Login';
 import User from './Components/User/User';
 import Home from './Pages.js/Home';
+import Photo from './Components/Photo/Photo';
 import { UserStorage } from './UserContext';
+import UserProfile from './Components/User/UserProfile';
+import NotFound from './Components/NotFound';
 const App = () => {
   return (
-    <BrowserRouter>
-      <UserStorage>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="login/*" element={<Login />} />
-          <ProtectedRoute path="conta/*" element={<User />} />
-        </Routes>
-        <Footer />
-      </UserStorage>
-    </BrowserRouter>
+    <div className="App">
+      <BrowserRouter>
+        <UserStorage>
+          <Header />
+          <main className="appBody">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="login/*" element={<Login />} />
+              <Route path="foto/:id" element={<Photo />} />
+              <Route path="perfil/:user" element={<UserProfile />} />
+              <ProtectedRoute path="conta/*" element={<User />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </main>
+          <Footer />
+        </UserStorage>
+      </BrowserRouter>
+    </div>
   );
 };
 

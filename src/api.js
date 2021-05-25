@@ -71,6 +71,12 @@ export function PHOTOS_GET({ page, total, user }) {
   };
 }
 
+export function PHOTO_GET_ID(id) {
+  return {
+    url: `${process.env.REACT_APP_API_BASE_URL}/api/photo/${id}`,
+  };
+}
+
 export function PHOTO_GET(id) {
   return {
     url: `${process.env.REACT_APP_API_BASE_URL}/api/photo/${id}`,
@@ -91,6 +97,56 @@ export function COMMENT_POST(id, body) {
         Authorization: 'Bearer ' + window.localStorage.token,
       },
       body: JSON.stringify(body),
+    },
+  };
+}
+
+export function PHOTO_DELETE(id) {
+  return {
+    url: `${process.env.REACT_APP_API_BASE_URL}/api/photo/${id}`,
+    options: {
+      method: 'DELETE',
+      headers: {
+        Authorization: 'Bearer ' + window.localStorage.token,
+      },
+    },
+  };
+}
+
+export function PASSWORD_LOST(body) {
+  return {
+    url: `${process.env.REACT_APP_API_BASE_URL}/api/password/lost`,
+    options: {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    },
+  };
+}
+
+export function PASSWORD_RESET(body) {
+  return {
+    url: `${process.env.REACT_APP_API_BASE_URL}/api/password/reset`,
+    options: {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    },
+  };
+}
+
+export function STATS_GET() {
+  return {
+    url: `${process.env.REACT_APP_API_BASE_URL}/api/stats`,
+    options: {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + window.localStorage.token,
+      },
     },
   };
 }
