@@ -10,14 +10,31 @@ export const UserStorage = ({ children }) => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
   const navigate = useNavigate();
-  const userLogout = React.useCallback(
-    async function () {
-      setData(null);
-      setError(null);
-      setLoading(false);
-      setLogin(false);
-      window.localStorage.removeItem('token');
-      navigate('/');
+
+  React.useEffect(() => {
+    if (login === true) {
+      navigate('/conta');
+    } else {
+      navigate('/login');
+    }
+  }, [navigate, login]);
+
+  const userLogout = React.useCallback(async function () {
+    setData(null);
+    setError(null);
+    setLoading(false);
+    setLogin(false);
+    window.localStorage.removeItem('token');
+  }, []);
+
+  const getUser = React.useCallback(
+    async function (token) {
+      const { url, options } = USER_GET(token);
+      const userRes = await fetch(url, options);
+      const json = await userRes.json();
+      setData(json);
+      setLogin(true);
+      navigate('/conta');
     },
     [navigate],
   );
@@ -38,18 +55,12 @@ export const UserStorage = ({ children }) => {
         } finally {
           setLoading(false);
         }
+      } else {
+        setLogin(false);
       }
     }
     autoLogin();
-  }, [userLogout]);
-
-  async function getUser(token) {
-    const { url, options } = USER_GET(token);
-    const userRes = await fetch(url, options);
-    const json = await userRes.json();
-    setData(json);
-    setLogin(true);
-  }
+  }, [getUser, userLogout]);
 
   async function userLogin(username, password) {
     try {
@@ -57,11 +68,10 @@ export const UserStorage = ({ children }) => {
       setLoading(true);
       const { url, options } = TOKEN_POST({ username, password });
       const tokenRes = await fetch(url, options);
-      if (!tokenRes.ok) throw new Error(`Error: ${tokenRes.statusText}`);
+      if (!tokenRes.ok) throw new Error(`Error: ${tokenRes.status}`);
       const { token } = await tokenRes.json();
       if (token) window.localStorage.setItem('token', token);
       await getUser(token);
-      navigate('/conta');
     } catch (err) {
       setError(err.message);
       setLogin(false);

@@ -1,10 +1,10 @@
 import React from 'react';
-import styles from '../Styles/Home.module.css';
+import Feed from '../Components/Feed/Feed';
 const Home = () => {
   return (
-    <div className={styles.home}>
-      <h1>Home</h1>
-    </div>
+    <section className="container mainContainer">
+      <Feed />
+    </section>
   );
 };
 
